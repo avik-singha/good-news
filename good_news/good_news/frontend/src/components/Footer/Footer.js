@@ -7,9 +7,9 @@ const Footer = () => {
       <div className="container-fluid">
         <div className="row justify-content-around">
           <div className="col-8 col-md-5">
-            <h5 className={styles.title}>good_news</h5>
+            <h5 className={styles.title}>Good News</h5>
             <p className={styles.description}>
-              This is placeholder text. Your web app description goes here.
+              Get positive news from around the world
             </p>
           </div>
           <div className="col-2">
@@ -18,17 +18,7 @@ const Footer = () => {
                 <a className={styles.footerlink} href="/">
                   Example Link
                 </a>
-              </li>
-              <li>
-                <a className={styles.footerlink} href="/">
-                  Example Link
-                </a>
-              </li>
-              <li>
-                <a className={styles.footerlink} href="/">
-                  Example Link
-                </a>
-              </li>
+              </li>              
             </ul>
           </div>
         </div>

@@ -12,14 +12,14 @@ const NavBar = () => {
       </div>
       <nav className="navbar navbar-expand-sm navbar-light border-bottom justify-content-between">
         <Link className="navbar-brand" to="/" role="heading" aria-level="1">
-          good_news
+          Good News
         </Link>
         <div className="navbar-nav">
           <Link className="nav-item nav-link active" to="/">
-            Grid
+            News
           </Link>
           <Link className="nav-item nav-link active" to="List">
-            List
+            About
           </Link>
         </div>
       </nav>
