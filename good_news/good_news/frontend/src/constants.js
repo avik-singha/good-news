@@ -1,6 +1,7 @@
 ﻿const ENDPOINT = {
   LIST: "/api/list",
   GRID: "/api/grid",
+  NEWS: "/api/getnews",
 };
 
 const ERROR_MESSAGE = {

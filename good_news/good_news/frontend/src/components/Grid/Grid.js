@@ -8,8 +8,20 @@ const Grid = () => {
   const [items, setItems] = useState([]);
   const [warningMessage, setWarningMessage] = useState({warningMessageOpen: false, warningMessageText: ""});
 
-  const getItems = () => {
-    const promiseItems = fetch(ENDPOINT.GRID)
+  // const getItems = () => {
+  //   const promiseItems = fetch(ENDPOINT.GRID)
+  //   .then(response => {
+  //     if (!response.ok) {
+  //       throw Error(response.statusText);
+  //     }
+  //     return response.json();
+  //   });
+
+  //   return promiseItems;
+  // }
+
+  const getNewsItems = () => {
+    const promiseItems = fetch(ENDPOINT.NEWS)
     .then(response => {
       if (!response.ok) {
         throw Error(response.statusText);
@@ -19,6 +31,7 @@ const Grid = () => {
 
     return promiseItems;
   }
+
   const closeWarningMessage = () => {
     setWarningMessage({
       warningMessageOpen: false,
@@ -27,8 +40,12 @@ const Grid = () => {
   }
 
   React.useEffect(() => {
-    getItems()
-    .then(newItems => {setItems(newItems)})
+    getNewsItems()
+    .then(newItems => {
+      if(newItems['details'].length>0){
+        setItems(newItems['details'])
+      }      
+    })
     .catch(error =>
       setWarningMessage({
         warningMessageOpen: true,
@@ -83,8 +100,8 @@ const Grid = () => {
         <div className="row justify-content-around text-center pb-5">
           {items.map(item => (
             <GridItem
-            key={item.id}
-            item={item}
+            key={item.downloadId}
+            item={item.SourceURL}
             />
           ))}
         </div>

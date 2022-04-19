@@ -3,6 +3,7 @@ const express = require("express");
 const { v4: uuidv4 } = require('uuid');
 const sampleData = require("../sampleData");
 
+const newsController = require('../controller/index');
 
 const router = express.Router();
 // LIST ENDPOINTS
@@ -37,5 +38,7 @@ router.get(CONSTANTS.ENDPOINT.GRID, (req, res) => {
   res.json(sampleData.textAssets);
 });
 
+
+router.get(CONSTANTS.ENDPOINT.GETNEWS,newsController.getNews);
 
 module.exports = router;

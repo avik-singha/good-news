@@ -12,6 +12,7 @@
     "express": "4.16.4",
     "fs-extra": "9.0.1",
     "http-errors": "1.6.3",
+    "mongoose": "^6.3.0",
     "morgan": "1.9.1",
     "uuid": "8.3.2"
   },
