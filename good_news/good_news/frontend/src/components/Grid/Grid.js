@@ -43,7 +43,12 @@ const Grid = () => {
     getNewsItems()
     .then(newItems => {
       if(newItems['details'].length>0){
-        setItems(newItems['details'])
+        const uniqueNews = [];
+        newItems['details'].forEach((t) => !uniqueNews.includes(t.SourceURL) && uniqueNews.push(t.SourceURL));
+        console.log("uniqueNews")
+        console.log(uniqueNews)
+
+        setItems(uniqueNews)
       }      
     })
     .catch(error =>
@@ -100,8 +105,8 @@ const Grid = () => {
         <div className="row justify-content-around text-center pb-5">
           {items.map(item => (
             <GridItem
-            key={item.downloadId}
-            item={item.SourceURL}
+            key={item}
+            item={item}
             />
           ))}
         </div>

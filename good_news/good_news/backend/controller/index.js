@@ -4,7 +4,7 @@ module.exports={
 
     getNews : function(req, res, next){
         news.find({$and: [{GoldsteinScale: {$gt: 1}},{AvgTone:{$gt: 1}}]},
-            {_id:0,SourceURL:1,downloadId : 1},{limit:20},function(err,docs){
+            {SourceURL:1},{limit:60},function(err,docs){
             if(err)
             {
                 return res.status(200).json({
