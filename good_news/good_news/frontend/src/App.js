@@ -4,9 +4,9 @@ import "./App.css";
 import NavBar from "./components/NavBar/NavBar";
 import Footer from "./components/Footer/Footer";
 
-import Grid from "./components/Grid/Grid";
+import NewsPage from "./components/Main";
 
-import List from "./components/List/List";
+import About from "./components/List/About";
 
 //TODO Web Template Studio: Add routes for your new pages here.
 const App = () => {
@@ -14,8 +14,8 @@ const App = () => {
       <React.Fragment>
         <NavBar />
         <Switch>
-          <Route exact path = "/" component = { Grid } />
-          <Route path = "/List" component = { List } />
+          <Route exact path = "/" component = { NewsPage } />
+          <Route path = "/About" component = { About } />
         </Switch>
         <Footer />
       </React.Fragment>

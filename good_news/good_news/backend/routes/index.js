@@ -39,6 +39,6 @@ router.get(CONSTANTS.ENDPOINT.GRID, (req, res) => {
 });
 
 
-router.get(CONSTANTS.ENDPOINT.GETNEWS,newsController.getNews);
+router.get(CONSTANTS.ENDPOINT.GETNEWS+ "/:pageno",newsController.getNews);
 
 module.exports = router;

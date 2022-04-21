@@ -1,6 +1,6 @@
 ﻿{
   "short_name": "good_news",
-  "name": "good_news created with Microsoft Web Template Studio",
+  "name": "Good News is a web application that showcases positive news around the world.",
   "icons": [
     {
       "src": "favicon.ico",
