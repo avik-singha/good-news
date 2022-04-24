@@ -15,8 +15,13 @@ const Footer = () => {
           <div className="col-2">
             <ul className="list-unstyled">
               <li>
-                <a className={styles.footerlink} href="/">
-                  Example Link
+                <a className={styles.footerlink} target="_blank" rel="noreferrer" href="https://www.mongodb.com/world-2022/hackathon">
+                  MongoDB Hackathon 22
+                </a>
+              </li> 
+              <li>
+                <a className={styles.footerlink} target="_blank" rel="noreferrer" href="https://www.gdeltproject.org/">
+                  GDELT Website
                 </a>
               </li>              
             </ul>

@@ -18,7 +18,7 @@ const NavBar = () => {
           <Link className="nav-item nav-link active" to="/">
             News
           </Link>
-          <Link className="nav-item nav-link active" to="List">
+          <Link className="nav-item nav-link active" to="About">
             About
           </Link>
         </div>
