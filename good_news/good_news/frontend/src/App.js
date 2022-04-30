@@ -8,7 +8,7 @@ import NewsPage from "./components/Main";
 
 import About from "./components/List/About";
 
-//TODO Web Template Studio: Add routes for your new pages here.
+
 const App = () => {
     return (
       <React.Fragment>
