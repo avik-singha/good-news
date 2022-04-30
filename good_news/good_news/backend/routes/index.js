@@ -40,5 +40,6 @@ router.get(CONSTANTS.ENDPOINT.GRID, (req, res) => {
 
 
 router.get(CONSTANTS.ENDPOINT.GETNEWS+ "/:pageno",newsController.getNews);
+router.post(CONSTANTS.ENDPOINT.COUNTRYWISEGETNEWS,newsController.getCountrywiseNews);
 
 module.exports = router;

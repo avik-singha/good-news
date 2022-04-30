@@ -2,6 +2,7 @@
 import WarningMessage from "../WarningMessage/WarningMessage";
 import GridItem from "./GridItem";
 // import SearchBar from "./SearchBar";
+// import CountryDropdown from "./CountryDropdown";
 import { ENDPOINT } from "../../constants";
 
 const Grid = () => {
@@ -23,18 +24,54 @@ const Grid = () => {
     return promiseItems;
   }
 
+  const setUniqueNews = (newItemsDetails, oldState) => {
+    const uniqueNews = [];
+    newItemsDetails.forEach((t) => !uniqueNews.includes(t.SourceURL) && uniqueNews.push(t.SourceURL));
+    let totalUniqueNews = [...oldState,...uniqueNews]
+    setNews(totalUniqueNews)
+  }
+
+  const getCountrywiseNews = () => {
+    const promiseItems = fetch("/api/getCountrywiseNews",{
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({countryCode: "IND", pageno: pageCount})
+    })
+    .then(response => {
+      console.log(response)
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      return response.json();
+    });
+
+    return promiseItems;
+  }
+
+  const collectCountrywiseNewsItems = () => {
+    getCountrywiseNews()
+    .then(newItems => {
+      if(newItems['details'].length>0){
+        setUniqueNews(newItems['details'],news);
+      }      
+    })
+    .catch(error =>
+      setWarningMessage({
+        warningMessageOpen: true,
+        warningMessageText: `Request failed: ${error}`
+      })
+    );
+    
+  }
+
   const collectNewsItems = () => {
     getNewsItems()
     .then(newItems => {
       if(newItems['details'].length>0){
-        const uniqueNews = [];
-        newItems['details'].forEach((t) => !uniqueNews.includes(t.SourceURL) && uniqueNews.push(t.SourceURL));
-        console.log("uniqueNews")
-        console.log(uniqueNews.length)
-        let totalUniqueNews = [...news,...uniqueNews]
-        setNews(totalUniqueNews)
-        console.log("uniqueNews length after")
-        console.log(uniqueNews.length)
+        setUniqueNews(newItems['details'],news);
       }      
     })
     .catch(error =>
@@ -63,6 +100,7 @@ const Grid = () => {
 
   React.useEffect(() => {
     collectNewsItems();
+    //collectCountrywiseNewsItems();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);  
   }, [isFetching,pageCount]);
@@ -112,6 +150,7 @@ const Grid = () => {
         </div>
         <br/><br/>
         {/* <SearchBar addItem={addItem}/> */}
+        {/* <CountryDropdown/> */}
         <div className="row justify-content-around text-center pb-5">
           {news.map(item => (
             <GridItem
