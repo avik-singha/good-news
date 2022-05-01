@@ -33,7 +33,7 @@ module.exports={
 
 
     getCountrywiseNews : function(req, res, next){
-        let totalItemsPerPage = 10
+        let totalItemsPerPage = 50
         console.log(req.body);
         let pageNum = req.body.pageno;
         let ItemsToSkip = pageNum*totalItemsPerPage
