@@ -6,7 +6,7 @@ import Footer from "./components/Footer/Footer";
 
 import NewsPage from "./components/Main";
 
-import About from "./components/List/About";
+import About from "./components/About/About";
 
 
 const App = () => {

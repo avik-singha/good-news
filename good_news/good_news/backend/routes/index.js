@@ -3,6 +3,9 @@ const express = require("express");
 const newsController = require('../controller/index');
 const router = express.Router();
 
-router.get(CONSTANTS.ENDPOINT.GETNEWS+ "/:pageno",newsController.getNews);
+router.get(CONSTANTS.ENDPOINT.GETNEWS+ "/:pageno",newsController.getGoodNews);
+router.get(CONSTANTS.ENDPOINT.GETRANDOMNEWS,newsController.getRandomGoodNews);
+router.post(CONSTANTS.ENDPOINT.GETPROGRESSIVENEWS,newsController.getProgressiveGoodNews);
+router.post(CONSTANTS.ENDPOINT.GETCOUNTRYWISECOUNT,newsController.getCountryWiseGoodNewsCount);
 
 module.exports = router;
