@@ -8,18 +8,21 @@ import NewsPage from "./components/Main";
 
 import About from "./components/List/About";
 
+import Map from "./components/List/Map";
+
 //TODO Web Template Studio: Add routes for your new pages here.
 const App = () => {
-    return (
-      <React.Fragment>
-        <NavBar />
-        <Switch>
-          <Route exact path = "/" component = { NewsPage } />
-          <Route path = "/About" component = { About } />
-        </Switch>
-        <Footer />
-      </React.Fragment>
-    );
-}
+  return (
+    <React.Fragment>
+      <NavBar />
+      <Switch>
+        <Route exact path="/" component={NewsPage} />
+        <Route path="/About" component={About} />
+        <Route path="/Map" component={Map} />
+      </Switch>
+      <Footer />
+    </React.Fragment>
+  );
+};
 
 export default App;
