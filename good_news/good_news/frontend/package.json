@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@dhaiwat10/react-link-preview": "^1.14.0",
+    "@mongodb-js/charts-embed-dom": "^2.2.0",
     "@testing-library/jest-dom": "5.11.10",
     "@testing-library/react": "11.2.6",
     "@testing-library/user-event": "12.8.3",
