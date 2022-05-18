@@ -6,7 +6,8 @@ import Footer from "./components/Footer/Footer";
 
 import NewsPage from "./components/Main";
 
-import About from "./components/About/About";
+import About from "./components/About/About.js";
+import Map from "./components/Viz/Map.js"
 
 
 const App = () => {
