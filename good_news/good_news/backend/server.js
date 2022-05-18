@@ -6,7 +6,7 @@ const debug = require("debug")("WebTemplateStudioExpress:server");
 const http = require("http");
 const app = require("./app");
 const CONSTANTS = require("./constants");
-const mongoose = require('mongoose'); //MongoDB ODM
+const mongoose = require("mongoose"); //MongoDB ODM
 
 /**
  * Get port from environment and store in Express.
@@ -25,15 +25,18 @@ const server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-
-
- mongoose.connect(CONSTANTS.ENDPOINT.MONGODB,
- {useNewUrlParser: true, useUnifiedTopology: true}).then(result=>{  
-   console.log("---------- MongoDB connected -------------");
-   server.listen(port);
- }).catch(err=> {
-     console.log('Some error occured when connecting to MongoDB',err);
- })
+mongoose
+  .connect(CONSTANTS.ENDPOINT.MONGODB_JOHN, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then((result) => {
+    console.log("---------- MongoDB connected -------------");
+    server.listen(port);
+  })
+  .catch((err) => {
+    console.log("Some error occured when connecting to MongoDB", err);
+  });
 
 // server.listen(port);
 server.on("error", onError);
@@ -94,4 +97,3 @@ function onListening() {
   const bind = typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
   debug(`Listening on ${bind}`);
 }
-

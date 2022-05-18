@@ -10,16 +10,17 @@ import About from "./components/About/About";
 
 
 const App = () => {
-    return (
-      <React.Fragment>
-        <NavBar />
-        <Switch>
-          <Route exact path = "/" component = { NewsPage } />
-          <Route path = "/About" component = { About } />
-        </Switch>
-        <Footer />
-      </React.Fragment>
-    );
-}
+  return (
+    <React.Fragment>
+      <NavBar />
+      <Switch>
+        <Route exact path="/" component={NewsPage} />
+        <Route path="/About" component={About} />
+        <Route path="/Map" component={Map} />
+      </Switch>
+      <Footer />
+    </React.Fragment>
+  );
+};
 
 export default App;
