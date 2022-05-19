@@ -1,11 +1,7 @@
 ﻿import React, { useState } from "react";
 import WarningMessage from "../WarningMessage/WarningMessage";
 import GridItem from "./GridItem";
-// import SearchBar from "./SearchBar";
 import { countryData } from "./countryList";
-// import CountryDropdown from "./CountryDropdown";
-import { ENDPOINT } from "../../constants";
-import SideBar from "../Sidebar";
 
 const NewsPortal = () => {
   const [news, setNews] = useState([]);
@@ -18,8 +14,72 @@ const NewsPortal = () => {
   const [mode, setMode] = useState("DEFAULT");
 
 
-  const getNewsItems = () => {
-    const promiseItems = fetch(ENDPOINT.NEWS + '/' + pageCount)
+  const getNewsItems_fetch = () => {
+    const promiseItems = fetch('api/getnews/' + pageCount)
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.json();
+      });
+
+    return promiseItems;
+  }
+  
+  const getRandomNewsItems_fetch = () => {
+    const promiseItems = fetch('api/getrandomnews')
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.json();
+      });
+
+    return promiseItems;
+  }
+
+  const getCountrywiseNews_fetch = (countryCode) => {
+    console.log(countryCode);
+    fetch("/api/getCountrywiseNews", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ countryCode: countryCode, pageno: pageCount })
+    })
+      .then(response => {
+        console.log(response)
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.json();
+      });
+  }
+
+  const getCountryWiseNewsCount_fetch = () => {
+    const promiseItems = fetch('api/getcountrywisenewscount')
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.json();
+      });
+
+    return promiseItems;
+  }
+  
+  const getProgressiveNewsItems_fetch = (avgTone, gsScale) => {
+
+    const params = {
+      avgtone: avgTone,
+      gsscale: gsScale
+    };
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(params)
+    };
+    const promiseItems = fetch('api/getprogressivenews', options)
       .then(response => {
         if (!response.ok) {
           throw Error(response.statusText);
@@ -46,39 +106,10 @@ const NewsPortal = () => {
       collectNewsItems();
     }
   }
-
-  const getCountrywiseNews = (countryCode) => {
-    console.log(countryCode);
-    const promiseItems = fetch("/api/getCountrywiseNews", {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ countryCode: countryCode, pageno: pageCount })
-    })
-      .then(response => {
-        console.log(response)
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        return response.json();
-      });
-  }
-  const getNewsItems_fetch = () => {
-    const promiseItems = fetch('api/getnews/' + pageCount)
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        return response.json();
-      });
-
-    return promiseItems;
-  }
+ 
 
   const collectCountrywiseNewsItems = (countryId) => {
-    getCountrywiseNews(countryId)
+    getCountrywiseNews_fetch(countryId)
       .then(newItems => {
         if (newItems['details'].length > 0) {
           setUniqueNews(newItems['details'], countryId == country ? news : []);
@@ -94,7 +125,7 @@ const NewsPortal = () => {
   }
 
   const collectNewsItems = () => {
-    getNewsItems()
+    getNewsItems_fetch()
       .then(newItems => {
         if (newItems['details'].length > 0) {
           setUniqueNews(newItems['details'], mode != "DEFAULT" ? [] : news);
@@ -110,73 +141,6 @@ const NewsPortal = () => {
 
   }
 
-  const getRandomNewsItems_fetch = () => {
-    const promiseItems = fetch('api/getrandomnews')
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        return response.json();
-      });
-
-    return promiseItems;
-  }
-
-  const getCountryWiseNewsCount_fetch = () => {
-    const promiseItems = fetch('api/getcountrywisenewscount')
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        return response.json();
-      });
-
-    return promiseItems;
-  }
-
-
-  const getProgressiveNewsItems_fetch = (avgTone, gsScale) => {
-
-    const params = {
-      avgtone: avgTone,
-      gsscale: gsScale
-    };
-    const options = {
-      method: 'POST',
-      body: JSON.stringify(params)
-    };
-    const promiseItems = fetch('api/getprogressivenews', options)
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        return response.json();
-      });
-
-    return promiseItems;
-  }
-
-  // const setUniqueNews = (newItemsDetails, oldState) => {
-  //   const uniqueNews = [];
-  //   newItemsDetails.forEach((t) => !uniqueNews.includes(t.SourceURL) && uniqueNews.push(t.SourceURL));
-  //   let totalUniqueNews = [...oldState, ...uniqueNews]
-  //   setNews(totalUniqueNews)
-  // }
-
-  // const collectNewsItems = () => {
-  //   getNewsItems_fetch()
-  //     .then(newItems => {
-  //       if (newItems['details'].length > 0) {
-  //         setUniqueNews(newItems['details'], news);
-  //       }
-  //     })
-  //     .catch(error =>
-  //       setWarningMessage({
-  //         warningMessageOpen: true,
-  //         warningMessageText: `Request failed: ${error}`
-  //       })
-  //     );
-  // }
 
   const getRandomNews = () => {
     getRandomNewsItems_fetch()
@@ -222,9 +186,6 @@ const NewsPortal = () => {
           <h6>Scroll to bottom &#11015; to find out more news</h6>
         </div>
         <br /><br />
-        {/* <SearchBar addItem={addItem}/> */}
-
-        {/* <CountryDropdown/> */}
         <label><strong>Select Country:</strong>  &nbsp;</label>
         <select className="form-select" name="countryCode" id="countryCode" onChange={handleChange}>
           <option selected value="ALL">Select Country</option>
@@ -232,16 +193,6 @@ const NewsPortal = () => {
             <option value={eachcountryDetails.value} key={eachcountryDetails.value}>{eachcountryDetails.label}</option>
           ))}
         </select>
-        {/* <div class="row-fluid">
-        <select class="selectpicker" data-live-search="true">
-        <option data-subtext="Rep California">Tom Foolery</option>
-        <option data-subtext="Sen California">Bill Gordon</option>
-        <option data-subtext="Sen Massacusetts">Elizabeth Warren</option>
-        <option data-subtext="Rep Alabama">Mario Flores</option>
-        <option data-subtext="Rep Alaska">Don Young</option>
-        <option data-subtext="Rep California" disabled="disabled">Marvin Martinez</option>
-      </select>
-      </div> */}
         <div className="row justify-content-around text-center pb-5">
           {news.map(item => (
             <GridItem
