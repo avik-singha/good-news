@@ -4,7 +4,7 @@ const { parser } = require("html-metadata-parser");
 const CONSTANTS = require("./constants");
 const mongoClient = new MongoClient(CONSTANTS.ENDPOINT.MONGODB_JOHN);
 
-const gett = async () => {
+const getAndUpdateMetadata = async () => {
   try {
     await mongoClient.connect();
     const database = mongoClient.db("gdelt");
@@ -50,4 +50,4 @@ const gett = async () => {
     await mongoClient.close();
   }
 };
-gett();
+getAndUpdateMetadata();
