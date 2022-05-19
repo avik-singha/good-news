@@ -163,11 +163,75 @@ module.exports={
         let pageNum = req.body.pageno;
         let ItemsToSkip = pageNum*totalItemsPerPage
 
-        news.find({$and: [{GoldsteinScale: {$gt: 1}},
-            {AvgTone:{$gt: 1}},
-            {Actor2CountryCode: req.body.countryCode}
-        ]},
-            {SourceURL:1},{skip:ItemsToSkip,limit:totalItemsPerPage},function(err,docs){
+        let aggrQry=[];
+        if(req.body.countryCode!=="" && req.body.year!=="")
+        {
+            aggrQry=[
+                {$match:
+                    {
+                $and: [{GoldsteinScale: {$gt: 1}},{AvgTone:{$gt: 1}},
+                    {Actor2CountryCode: req.body.countryCode},
+                    {Year: parseInt(req.body.year)}
+                ]
+              }
+            },            
+            {$skip:ItemsToSkip},
+            {$limit:totalItemsPerPage},
+            {$project : {
+                SourceURL:1
+            }}
+         ]
+        }
+        else if(req.body.countryCode=="")
+        {
+            aggrQry=[
+                {$match:
+                    {
+                $and: [{GoldsteinScale: {$gt: 1}},{AvgTone:{$gt: 1}},
+                    {Year: parseInt(req.body.year)}
+                ]
+              }
+            },            
+            {$skip:ItemsToSkip},
+            {$limit:totalItemsPerPage},
+            {$project : {
+                SourceURL:1
+            }}
+         ]
+        }else if(req.body.year=="")
+        {
+            aggrQry=[
+                {$match:
+                    {
+                $and: [{GoldsteinScale: {$gt: 1}},{AvgTone:{$gt: 1}},
+                    {Actor2CountryCode: req.body.countryCode}                   
+                ]
+              }
+            },            
+            {$skip:ItemsToSkip},
+            {$limit:totalItemsPerPage},
+            {$project : {
+                SourceURL:1
+            }}
+         ]
+        }else{
+            aggrQry=[
+                {$match:
+                    {
+                $and: [{GoldsteinScale: {$gt: 1}},{AvgTone:{$gt: 1}},                  
+                ]
+              }
+            },            
+            {$skip:ItemsToSkip},
+            {$limit:totalItemsPerPage},
+            {$project : {
+                SourceURL:1
+            }}
+         ]
+        }
+        
+
+        news.aggregate(aggrQry).exec((err, docs) => {
             if(err)
             {
                 return res.status(200).json({

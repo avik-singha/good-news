@@ -12,6 +12,13 @@ const NewsPortal = () => {
   const [warningMessage, setWarningMessage] = useState({ warningMessageOpen: false, warningMessageText: "" });
   const [country, setCountryCode] = useState("");
   const [mode, setMode] = useState("DEFAULT");
+  const [year, setYear] = useState("");
+
+  let yearData = [];
+  for (var i = 2000; i < (new Date()).getFullYear() + 1; i++) {
+    yearData.push(i);
+  }
+
 
 
   const getNewsItems_fetch = () => {
@@ -38,15 +45,15 @@ const NewsPortal = () => {
     return promiseItems;
   }
 
-  const getCountrywiseNews_fetch = (countryCode) => {
-    console.log(countryCode);
-    fetch("/api/getCountrywiseNews", {
+  const getCountrywiseNews_fetch = (countryCode,yearVal) => {
+    console.log(countryCode,yearVal);
+    const promiseItems = fetch("/api/getCountrywiseNews", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ countryCode: countryCode, pageno: pageCount })
+      body: JSON.stringify({ countryCode: countryCode, pageno: pageCount, year: yearVal })
     })
       .then(response => {
         console.log(response)
@@ -55,6 +62,7 @@ const NewsPortal = () => {
         }
         return response.json();
       });
+      return promiseItems;
   }
 
   const getCountryWiseNewsCount_fetch = () => {
@@ -97,22 +105,44 @@ const NewsPortal = () => {
     setNews(totalUniqueNews)
   }
 
+  
+  React.useEffect(() => {
+    collectCountrywiseNewsItems(country, year);
+    console.log(country, year);
+  }, [country, year]);
+
+
   const handleChange = (e) => {
-    if (e.target.value != "ALL") {
+
+    const target = e.target;
+    const value = target.value;
+    const name = target.name;
+
+    if (value != "ALL") {
       setMode("COUNTRY");
-      setCountryCode(e.target.value);
-      collectCountrywiseNewsItems(e.target.value);
+      name === "countryCode" ? setCountryCode(value) : setYear(value);
+
     } else {
       collectNewsItems();
     }
   }
+
+  // const handleChange = (e) => {
+  //   if (e.target.value != "ALL") {
+  //     setMode("COUNTRY");
+  //     setCountryCode(e.target.value);
+  //     collectCountrywiseNewsItems(e.target.value);
+  //   } else {
+  //     collectNewsItems();
+  //   }
+  // }
  
 
-  const collectCountrywiseNewsItems = (countryId) => {
-    getCountrywiseNews_fetch(countryId)
+  const collectCountrywiseNewsItems = (countryId,yearVal) => {
+    getCountrywiseNews_fetch(countryId,yearVal)
       .then(newItems => {
         if (newItems['details'].length > 0) {
-          setUniqueNews(newItems['details'], countryId == country ? news : []);
+          setUniqueNews(newItems['details'], countryId ? [] : news);
         }
       })
       .catch(error =>
@@ -169,7 +199,7 @@ const NewsPortal = () => {
     if (mode == "DEFAULT") {
       collectNewsItems()
     } else if (mode == "COUNTRY") {
-      collectCountrywiseNewsItems(country)
+      collectCountrywiseNewsItems(country, year)
     }
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
@@ -186,20 +216,39 @@ const NewsPortal = () => {
           <h6>Scroll to bottom &#11015; to find out more news</h6>
         </div>
         <br /><br />
-        <label><strong>Select Country:</strong>  &nbsp;</label>
-        <select className="form-select" name="countryCode" id="countryCode" onChange={handleChange}>
-          <option selected value="ALL">Select Country</option>
-          {countryData.map((eachcountryDetails, i) => (
-            <option value={eachcountryDetails.value} key={eachcountryDetails.value}>{eachcountryDetails.label}</option>
-          ))}
-        </select>
+        <div className="row">
+          <div className="select">
+            <select name="countryCode" id="countryCode" onChange={handleChange}>
+              <option defaultValue value="ALL">Select Country</option>
+              {countryData.map((eachcountryDetails, i) => (
+                <option value={eachcountryDetails.value} key={eachcountryDetails.value}>{eachcountryDetails.label}</option>
+              ))}
+            </select>
+          </div>
+          <div>&nbsp;&nbsp;</div>
+          <div className="select">
+            <select name="year" id="year" onChange={handleChange}>
+              <option defaultValue value="ALL">Select Year</option>
+              {yearData.map((yearDetails, i) => (
+                <option value={yearDetails} key={yearDetails}>{yearDetails}</option>
+              ))}
+            </select>
+          </div>
+          <div>&nbsp;&nbsp;</div>
+          
+          <button type="button" class="btn btn-primary">Get Random News</button>
+        </div>
         <div className="row justify-content-around text-center pb-5">
-          {news.map(item => (
+          {news.length>0?
+          (news.map(item => (
+
             <GridItem
               key={item}
               item={item}
             />
-          ))}
+          ))):
+          <div>No positive news found</div>
+          }
         </div>
       </div>
       <WarningMessage
