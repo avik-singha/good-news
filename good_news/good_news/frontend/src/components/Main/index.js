@@ -5,13 +5,13 @@ import GridItem from "./GridItem";
 import { countryData } from "./countryList";
 // import CountryDropdown from "./CountryDropdown";
 import { ENDPOINT } from "../../constants";
+import SideBar from "../Sidebar";
 
-
-
-
-const Grid = () => {
+const NewsPortal = () => {
   const [news, setNews] = useState([]);
   const [pageCount, setPageCount] = useState(1);
+  const [avgTone, setAvgTone] = useState(1);
+  const [gsScale, setGsScale] = useState(1);
   const [isFetching, setIsFetching] = useState(false);
   const [warningMessage, setWarningMessage] = useState({ warningMessageOpen: false, warningMessageText: "" });
   const [country, setCountryCode] = useState("");
@@ -64,6 +64,15 @@ const Grid = () => {
         }
         return response.json();
       });
+  }
+  const getNewsItems_fetch = () => {
+    const promiseItems = fetch('api/getnews/' + pageCount)
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.json();
+      });
 
     return promiseItems;
   }
@@ -101,11 +110,92 @@ const Grid = () => {
 
   }
 
+  const getRandomNewsItems_fetch = () => {
+    const promiseItems = fetch('api/getrandomnews')
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.json();
+      });
+
+    return promiseItems;
+  }
+
+  const getCountryWiseNewsCount_fetch = () => {
+    const promiseItems = fetch('api/getcountrywisenewscount')
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.json();
+      });
+
+    return promiseItems;
+  }
+
+
+  const getProgressiveNewsItems_fetch = (avgTone, gsScale) => {
+
+    const params = {
+      avgtone: avgTone,
+      gsscale: gsScale
+    };
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(params)
+    };
+    const promiseItems = fetch('api/getprogressivenews', options)
+      .then(response => {
+        if (!response.ok) {
+          throw Error(response.statusText);
+        }
+        return response.json();
+      });
+
+    return promiseItems;
+  }
+
+  // const setUniqueNews = (newItemsDetails, oldState) => {
+  //   const uniqueNews = [];
+  //   newItemsDetails.forEach((t) => !uniqueNews.includes(t.SourceURL) && uniqueNews.push(t.SourceURL));
+  //   let totalUniqueNews = [...oldState, ...uniqueNews]
+  //   setNews(totalUniqueNews)
+  // }
+
+  // const collectNewsItems = () => {
+  //   getNewsItems_fetch()
+  //     .then(newItems => {
+  //       if (newItems['details'].length > 0) {
+  //         setUniqueNews(newItems['details'], news);
+  //       }
+  //     })
+  //     .catch(error =>
+  //       setWarningMessage({
+  //         warningMessageOpen: true,
+  //         warningMessageText: `Request failed: ${error}`
+  //       })
+  //     );
+  // }
+
+  const getRandomNews = () => {
+    getRandomNewsItems_fetch()
+      .then(newItems => {
+        if (newItems['details'].length > 0) {
+          setUniqueNews(newItems['details'], []);
+        }
+      })
+      .catch(error =>
+        setWarningMessage({
+          warningMessageOpen: true,
+          warningMessageText: `Request failed: ${error}`
+        })
+      );
+  }
 
   function onScroll() {
     if (window.pageYOffset + window.innerHeight >= document.documentElement.scrollHeight - 50) {
       console.log('Reached bottom')
-      // collectNewsItems();
       setIsFetching(true);
       setPageCount(pageCount + 1)
     }
@@ -120,7 +210,6 @@ const Grid = () => {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, [isFetching, pageCount]);
-
 
 
   return (
@@ -170,4 +259,4 @@ const Grid = () => {
   );
 }
 
-export default Grid;
+export default NewsPortal;
