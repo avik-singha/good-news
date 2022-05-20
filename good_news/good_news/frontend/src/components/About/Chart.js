@@ -20,7 +20,7 @@ const Chart = ({ chartId }) => {
     chart
       .render(chartDiv.current)
       .catch((err) => console.log("Error during Charts rendering.", err));
-  }, []);
+  }, [chart]);
 
   return <div className="chart" ref={chartDiv} />;
 };

@@ -7,7 +7,7 @@ import Footer from "./components/Footer/Footer";
 import NewsPage from "./components/Main";
 
 import About from "./components/About/About";
-
+import Map from "./components/About/Map";
 
 const App = () => {
   return (
