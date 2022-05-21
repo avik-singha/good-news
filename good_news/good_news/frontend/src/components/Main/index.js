@@ -236,7 +236,7 @@ const NewsPortal = () => {
           </div>
           <div>&nbsp;&nbsp;</div>
           
-          <button type="button" class="btn btn-primary">Get Random News</button>
+          <button type="button" className="btn btn-primary" onClick={()=>getRandomNews()}>Get some random good news</button>
         </div>
         <div className="row justify-content-around text-center pb-5">
           {news.length>0?
@@ -247,7 +247,7 @@ const NewsPortal = () => {
               item={item}
             />
           ))):
-          <div>No positive news found</div>
+          <h6>No positive news found</h6>
           }
         </div>
       </div>

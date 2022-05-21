@@ -14,6 +14,13 @@ const GridItem = ({ item }) => {
         descriptionLength={50}
         showLoader={true}
       />
+
+    {/* <div className="card" style="width: 18rem;">
+      <img className="card-img-top" src="..." alt="Card image cap"/>
+      <div className="card-body">
+        <p className="card-text">{item}</p>
+      </div>
+    </div> */}
     </div>
   );
 }
