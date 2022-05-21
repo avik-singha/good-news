@@ -4,15 +4,12 @@ const About = () => {
   return (
     <main id="mainContent" className="container">
       <div className="row justify-content-center py-5">
-        <h1></h1>
         <h2>About the Project</h2>
       </div>
-      <div className="row justify-content-left py-5">
+      <div className="row justify-content-left py-2 px-5 tc">
         <p>
-          <b>Good News</b> is a web application that showcases positive news
-          around the world.
-        </p>
-        <p>
+        <b>Good News</b> is a web application that showcases positive news
+          around the world.<br/>
           It has been shown that in recent times, world news is
           ever-increasingly leaning towards the negative, so we created{" "}
           <b>Good News</b> as a breath of fresh air to give viewers a break from

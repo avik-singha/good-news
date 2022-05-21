@@ -1,5 +1,6 @@
 import React from 'react';
-import { countryData } from "./countryList";
+import countryData from "../../data/countryList";
+
 const CountryDropdown = (params) => {
   return (
     <div className="container">

@@ -1,0 +1,148 @@
+{
+    "_id": {
+        "$oid": "627aecae5758dc5f60a66c22"
+    },
+    "GlobalEventId": {
+        "$numberLong": "1043615800"
+    },
+    "Day": {
+        "$numberLong": "20210510"
+    },
+    "MonthYear": {
+        "$numberLong": "202105"
+    },
+    "Year": {
+        "$numberLong": "2021"
+    },
+    "FractionDate": 2021.3562,
+    "IsRootEvent": {
+        "$numberLong": "1"
+    },
+    "EventCode": "041",
+    "EventBaseCode": "041",
+    "EventRootCode": "04",
+    "QuadClass": {
+        "$numberLong": "1"
+    },
+    "GoldsteinScale": 1,
+    "NumMentions": {
+        "$numberLong": "6"
+    },
+    "NumSources": {
+        "$numberLong": "1"
+    },
+    "NumArticles": {
+        "$numberLong": "6"
+    },
+    "AvgTone": -1.06666666666666,
+    "DATEADDED": "20220510164500",
+    "SOURCEURL": "https://www.presstv.ir/Detail/2022/05/10/681843/Spain",
+    "actorCodes": [
+        "",
+        "GOVERNMENT"
+    ],
+    "points": [
+        {
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -3.68333,
+                    40.4
+                ]
+            }
+        },
+        {
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -3.68333,
+                    40.4
+                ]
+            }
+        }
+    ],
+    "Actor1": {
+        "Name": "",
+        "Code": "",
+        "CountryCode": "",
+        "KnownGroupCode": "",
+        "EthnicCode": "",
+        "Religion1Code": "",
+        "Religion2Code": "",
+        "Type1Code": "",
+        "Type2Code": "",
+        "Type3Code": "",
+        "Geo": {
+            "type": "Point",
+            "coordinates": [
+                0,
+                0
+            ]
+        },
+        "Geo_Type": {
+            "$numberLong": "0"
+        },
+        "Geo_Fullname": "",
+        "Geo_CountryCode": "",
+        "Geo_ADM1Code": "",
+        "Geo_ADM2Code": "",
+        "Geo_FeatureID": ""
+    },
+    "Actor2": {
+        "Name": "GOVERNMENT",
+        "Code": "GOV",
+        "CountryCode": "",
+        "KnownGroupCode": "",
+        "EthnicCode": "",
+        "Religion1Code": "",
+        "Religion2Code": "",
+        "Type1Code": "GOV",
+        "Type2Code": "",
+        "Type3Code": "",
+        "Geo": {
+            "type": "Point",
+            "coordinates": [
+                -3.68333,
+                40.4
+            ]
+        },
+        "Geo_Type": {
+            "$numberLong": "4"
+        },
+        "Geo_Fullname": "Madrid, Madrid, Spain",
+        "Geo_CountryCode": "SP",
+        "Geo_ADM1Code": "SP29",
+        "Geo_ADM2Code": "25820",
+        "Geo_FeatureID": "-390625"
+    },
+    "Action": {
+        "Geo": {
+            "type": "Point",
+            "coordinates": [
+                -3.68333,
+                40.4
+            ]
+        },
+        "Geo_Type": {
+            "$numberLong": "4"
+        },
+        "Geo_Fullname": "Madrid, Madrid, Spain",
+        "Geo_CountryCode": "SP",
+        "Geo_ADM1Code": "SP29",
+        "Geo_ADM2Code": "25820",
+        "Geo_FeatureID": "-390625"
+    },
+    "Info": {
+        "meta": {
+            "title": "Spain’s spy chief sacked over Pegasus spyware scandal",
+            "description": "Spain has fired the director of its top intelligence agency over the hacking of politicians’ mobile phones with the Israeli spyware Pegasus."
+        },
+        "og": {
+            "site_name": "PressTV",
+            "title": "Spain’s spy chief sacked over Pegasus spyware scandal",
+            "type": "video",
+            "description": "Spain has fired the director of its top intelligence agency over the hacking of politicians’ mobile phones with the Israeli spyware Pegasus.",
+            "image": "https://cdn.presstv.ir/Photo/2022/5/10/0f3061fe-2da5-4a99-8b7f-09e1cd980ee0.jpeg"
+        }
+    }
+}

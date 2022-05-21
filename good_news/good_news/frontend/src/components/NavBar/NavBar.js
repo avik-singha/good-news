@@ -29,7 +29,7 @@ const NavBar = () => {
 
       <nav className="navbar navbar-expand-lg py-3 navbar-dark shadow-sm" style={{ backgroundColor: "#2c3e50" }}>
         <div className="container">
-          <a href="#" className="navbar-brand">
+          <a href="/" className="navbar-brand">
             {/* <!-- Logo Image --> */}
             <img src="https://1.bp.blogspot.com/-b8gUc48IHx8/YAKcN5bBEfI/AAAAAAAAAMs/89zm6U1OrBQd6wXyvEo_Lmn5etWHlULlQCNcBGAsYHQ/s500/PNGKH_0000125.png" width="45" alt="" className="d-inline-block align-middle mr-2" />
             {/* <!-- Logo Text --> */}
@@ -38,11 +38,11 @@ const NavBar = () => {
 
           <button type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" className="navbar-toggler"><span className="navbar-toggler-icon"></span></button>
 
-          <div id="navbarSupportedContent" className="collapse navbar-collapse">
-            <ul className="navbar-nav ml-auto">
-              <li className="nav-item active"> <Link className="nav-item nav-link active" to="/">News</Link></li>
-              <li className="nav-item"> <Link className="nav-item nav-link active" to="Map">Map</Link></li>
-              <li className="nav-item"><Link className="nav-item nav-link active" to="About">About</Link></li>
+          <div id="navbarSupportedContent" className="collapse navbar-collapse justify-content-center">
+            <ul className="navbar-nav ml-auto ">
+              <li className="nav-item active tc"> <Link className="nav-item nav-link active" to="/">News</Link></li>
+              <li className="nav-item tc"> <Link className="nav-item nav-link active" to="Map">Map</Link></li>
+              <li className="nav-item tc"><Link className="nav-item nav-link active" to="About">About</Link></li>
               {/* <li className="nav-item"><Link className="nav-item nav-link" to="/">Chart</Link></li> */}
             </ul>
           </div>
