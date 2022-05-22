@@ -2,17 +2,30 @@ const news = require('../model/index');
 
 module.exports={
 
-    // getNews : function(req, res, next){
-    //     let totalItemsPerPage = 10
-
     getGoodNews : function(req, res, next){
         let totalItemsPerPage = 10;
         let pageNum = req.params.pageno;
         let ItemsToSkip = pageNum*totalItemsPerPage;
         
+        let aggrQry = [
+            {
+                $match : {
+                    $and: [{GoldsteinScale: {$gt: 1}},{AvgTone:{$gt: 1}}]
+                }                
+            },
+            {$skip:ItemsToSkip},
+            {$limit:totalItemsPerPage},
+            {$project : {
+                SourceURL:1
+            }},
+            {
+                $sort : {
+                    DateAdded : 1
+                }
+            } 
+        ]
 
-        news.find({$and: [{GoldsteinScale: {$gt: 1}},{AvgTone:{$gt: 1}}]},
-            {SourceURL:1},{skip:ItemsToSkip,limit:totalItemsPerPage},function(err,docs){
+        news.aggregate(aggrQry).exec((err, docs) => {
             if(err)
             {
                 return res.status(200).json({
@@ -34,14 +47,13 @@ module.exports={
     },
     
     getProgressiveGoodNews : function(req, res, next){        
-
+        let totalItemsPerPage = 10;
+        let pageNum = req.params.pageno;
+        let ItemsToSkip = pageNum*totalItemsPerPage;
         let avgTone = req.body.avgtone;
         let goldSteinScale = req.body.gsscale;    
 
         let aggrQry = [
-            {
-                $sample : {size : 100}
-            },
             {
                 $match:{
                     $and: [
@@ -50,12 +62,18 @@ module.exports={
                     ]
                 },
             },
+            {$skip:ItemsToSkip},
+            {$limit:totalItemsPerPage},
             {
                 $project: {
                     SourceURL : 1
               }
-            }    
-
+            },
+            {
+                $sort : {
+                    DateAdded : 1
+                }
+            }
         ]
 
         news.aggregate(aggrQry).exec((err,docs)=>{
@@ -79,7 +97,7 @@ module.exports={
     },
 
     getRandomGoodNews : function(req, res, next){        
-        console.log("random")
+        
         let aggrQry = [
             {
                 $sample : {size : 1000}
@@ -115,49 +133,9 @@ module.exports={
                   });
             }
         })    
-    },
+    },    
 
-    getCountryWiseGoodNewsCount: function(req, res, next){
-        let aggrQry = [
-            {$match: 
-                {$and: [{GoldsteinScale: {$gt: 1}},{AvgTone:{$gt: 1}}]}
-            },
-            {
-              $group: {
-                 _id: "$Actor2CountryCode",
-                 count: { $sum:1 } 
-              }
-            }
-          ]
-
-        news.aggregate(aggrQry).exec((err,docs)=>{
-            if(err)
-            {
-                return res.status(200).json({
-                    isError: true,
-                    message: "Failed",
-                    statuscode: 200,
-                    details: null
-                  });
-            }else{
-                return res.status(200).json({
-                    isError: false,
-                    message: "Country wise good news count",
-                    statuscode: 200,
-                    details: docs
-                  });
-            }
-        })    
-    },
-
-
-    
-
-
-
-
-
-    getCountrywiseNews : function(req, res, next){
+    getCountryAndYearwiseNews : function(req, res, next){
         let totalItemsPerPage = 50
         console.log(req.body);
         let pageNum = req.body.pageno;
@@ -252,5 +230,51 @@ module.exports={
         })
     },
 
+    getDayWiseGoodNewsCount: function(req, res, next){
+        let startDate = req.body.startdate
+        let endDate = req.body.enddate
+        let month = req.body.month
+        let year = req.body.year
+        let computedStartDate = parseInt(year.toString()+month.toString()+startDate.toString());
+        let computedEndDate = parseInt(year.toString()+month.toString()+endDate.toString());
+        let aggrQry = [
+            [{$match: 
+                {$and: [
+                    {Day:{$gte:computedStartDate,$lte:computedEndDate}},
+                    {GoldsteinScale: {$gt: 1}},
+                    {AvgTone:{$gt: 1}}
+                   ]
+                }
+            },
+            {
+              $group: {
+                 _id: "$Day",
+                 count: { $sum:1 } 
+              }
+            },
+            {$sort:{
+                "_id":1
+            }}]
+        ]
+
+        news.aggregate(aggrQry).exec((err,docs)=>{
+            if(err)
+            {
+                return res.status(200).json({
+                    isError: true,
+                    message: "Failed",
+                    statuscode: 200,
+                    details: null
+                  });
+            }else{
+                return res.status(200).json({
+                    isError: false,
+                    message: "Country wise good news count",
+                    statuscode: 200,
+                    details: docs
+                  });
+            }
+        })    
+    }
 
 }

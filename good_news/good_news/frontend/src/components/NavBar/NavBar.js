@@ -42,8 +42,8 @@ const NavBar = () => {
             <ul className="navbar-nav ml-auto ">
               <li className="nav-item active tc"> <Link className="nav-item nav-link active" to="/">News</Link></li>
               <li className="nav-item tc"> <Link className="nav-item nav-link active" to="Map">Map</Link></li>
+              <li className="nav-item tc"><Link className="nav-item nav-link active" to="Graph">Graph</Link></li>
               <li className="nav-item tc"><Link className="nav-item nav-link active" to="About">About</Link></li>
-              {/* <li className="nav-item"><Link className="nav-item nav-link" to="/">Chart</Link></li> */}
             </ul>
           </div>
         </div>

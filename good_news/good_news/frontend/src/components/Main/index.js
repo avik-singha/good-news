@@ -68,17 +68,7 @@ const NewsPortal = () => {
       return promiseItems;
   }
 
-  const getCountryWiseNewsCount_fetch = () => {
-    const promiseItems = fetch('api/getcountrywisenewscount')
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        return response.json();
-      });
 
-    return promiseItems;
-  }
   
   const getProgressiveNewsItems_fetch = (avgTone, gsScale) => {
 
