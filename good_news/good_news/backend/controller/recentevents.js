@@ -1,22 +1,32 @@
-const news = require('../model/index');
+const news = require('../model/recentevents');
 
 module.exports={
 
     getGoodNews : function(req, res, next){
-        let totalItemsPerPage = 10;
+        let totalItemsPerPage = 20;
         let pageNum = req.params.pageno;
         let ItemsToSkip = pageNum*totalItemsPerPage;
         
         let aggrQry = [
             {
                 $match : {
-                    $and: [{GoldsteinScale: {$gt: 1}},{AvgTone:{$gt: 1}}]
+                    $and: [
+                        {GoldsteinScale: {$gt: 1}},
+                        {AvgTone:{$gt: 1}},
+                        {Info: {
+                            $exists: true
+                          }},
+                        { 'Info.og': { $gt: {} } }
+                    ]
                 }                
             },
             {$skip:ItemsToSkip},
             {$limit:totalItemsPerPage},
-            {$project : {
-                SourceURL:1
+            {$project : {                
+                'Info.og':1
+            }},
+            {$project : {                
+                NewsDetails : "$Info.og"
             }},
             {
                 $sort : {
@@ -47,7 +57,7 @@ module.exports={
     },
     
     getProgressiveGoodNews : function(req, res, next){        
-        let totalItemsPerPage = 10;
+        let totalItemsPerPage = 20;
         let pageNum = req.params.pageno;
         let ItemsToSkip = pageNum*totalItemsPerPage;
         let avgTone = req.body.avgtone;
@@ -58,17 +68,22 @@ module.exports={
                 $match:{
                     $and: [
                         {$eq:["$GoldsteinScale",goldSteinScale]},
-                        {AvgTone:{$gt: avgTone}}
+                        {AvgTone:{$gt: avgTone}},
+                        {Info: {
+                            $exists: true
+                          }},
+                        { 'Info.og': { $gt: {} } }
                     ]
                 },
             },
             {$skip:ItemsToSkip},
             {$limit:totalItemsPerPage},
-            {
-                $project: {
-                    SourceURL : 1
-              }
-            },
+            {$project : {                
+                'Info.og':1
+            }},
+            {$project : {                
+                NewsDetails : "$Info.og"
+            }},
             {
                 $sort : {
                     DateAdded : 1
@@ -104,15 +119,22 @@ module.exports={
             },
             {
                 $match:{
-                    $and: [{GoldsteinScale: {$gt: 1}},{AvgTone:{$gt: 1}}]
+                    $and: [
+                        {GoldsteinScale: {$gt: 1}},
+                        {AvgTone:{$gt: 1}},
+                        {Info: {
+                            $exists: true
+                          }},
+                        { 'Info.og': { $gt: {} } }
+                    ]
                 },
             },
-            {
-                $project: {
-                    SourceURL : 1
-              }
-            }    
-
+            {$project : {                
+                'Info.og':1
+            }},
+            {$project : {                
+                NewsDetails : "$Info.og"
+            }},
         ]
 
         news.aggregate(aggrQry).exec((err,docs)=>{
@@ -148,16 +170,23 @@ module.exports={
                 {$match:
                     {
                 $and: [{GoldsteinScale: {$gt: 1}},{AvgTone:{$gt: 1}},
-                    {Actor2CountryCode: req.body.countryCode},
-                    {Year: parseInt(req.body.year)}
+                    {'Actor2.CountryCode': req.body.countryCode},
+                    {Year: parseInt(req.body.year)},
+                    {Info: {
+                        $exists: true
+                      }},
+                    { 'Info.og': { $gt: {} } }
                 ]
               }
             },            
             {$skip:ItemsToSkip},
             {$limit:totalItemsPerPage},
-            {$project : {
-                SourceURL:1
-            }}
+            {$project : {                
+                'Info.og':1
+            }},
+            {$project : {                
+                NewsDetails : "$Info.og"
+            }},
          ]
         }
         else if(req.body.countryCode=="")
@@ -166,14 +195,18 @@ module.exports={
                 {$match:
                     {
                 $and: [{GoldsteinScale: {$gt: 1}},{AvgTone:{$gt: 1}},
-                    {Year: parseInt(req.body.year)}
+                    {Year: parseInt(req.body.year)},
+                    {Info: {
+                        $exists: true
+                      }},
+                    { 'Info.og': { $gt: {} } }
                 ]
               }
             },            
             {$skip:ItemsToSkip},
             {$limit:totalItemsPerPage},
-            {$project : {
-                SourceURL:1
+            {$project : {                
+                'Info.og':1
             }}
          ]
         }else if(req.body.year=="")
@@ -182,28 +215,37 @@ module.exports={
                 {$match:
                     {
                 $and: [{GoldsteinScale: {$gt: 1}},{AvgTone:{$gt: 1}},
-                    {Actor2CountryCode: req.body.countryCode}                   
+                    {'Actor2.CountryCode': req.body.countryCode},
+                    {Info: {
+                        $exists: true
+                      }},
+                    { 'Info.og': { $gt: {} } }                  
                 ]
               }
             },            
             {$skip:ItemsToSkip},
             {$limit:totalItemsPerPage},
-            {$project : {
-                SourceURL:1
+            {$project : {                
+                'Info.og':1
             }}
          ]
         }else{
             aggrQry=[
                 {$match:
                     {
-                $and: [{GoldsteinScale: {$gt: 1}},{AvgTone:{$gt: 1}},                  
+                $and: [{GoldsteinScale: {$gt: 1}},
+                    {AvgTone:{$gt: 1}},  
+                    {Info: {
+                        $exists: true
+                      }},
+                    { 'Info.og': { $gt: {} } }                
                 ]
               }
             },            
             {$skip:ItemsToSkip},
             {$limit:totalItemsPerPage},
-            {$project : {
-                SourceURL:1
+            {$project : {                
+                'Info.og':1
             }}
          ]
         }

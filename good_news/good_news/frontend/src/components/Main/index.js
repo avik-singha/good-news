@@ -91,18 +91,33 @@ const NewsPortal = () => {
     return promiseItems;
   }
 
-  const setUniqueNews = (newItemsDetails, oldState) => {
-    const uniqueNews = [];
-    newItemsDetails.forEach((t) => !uniqueNews.includes(t.SourceURL) && uniqueNews.push(t.SourceURL));
-    let totalUniqueNews = [...oldState, ...uniqueNews]
-    setNews(totalUniqueNews)
+  const setUniqueNews = (newItemsDetails) => {
+    const newNews = [];   	
+
+    newItemsDetails.forEach((eachNews) => 
+    newNews.push({...eachNews.NewsDetails,...{id : eachNews._id}}
+    ))
+
+    // newItemsDetails.forEach((t) => !uniqueNews.includes(t.SourceURL) && uniqueNews.push(t.SourceURL));
+    // let totalUniqueNews = [...oldState, ...uniqueNews]
+    console.log(newNews)
+    let uniqueNewsArray = [...new Map(newNews.map((item) => [item["url"], item])).values()];
+
+    console.log(uniqueNewsArray)
+    return uniqueNewsArray;
   }
+
+  const addMoreNews = (newNews,oldNews) =>{
+    let totalNews = [...oldNews,...newNews]
+    setNews(totalNews);
+  }
+
 
   
   React.useEffect(() => {
     collectCountrywiseNewsItems(country, year);
     console.log(country, year);
-  }, [country, year]);
+  }, [country, year ]);
 
 
   const handleChange = (e) => {
@@ -120,22 +135,12 @@ const NewsPortal = () => {
     }
   }
 
-  // const handleChange = (e) => {
-  //   if (e.target.value != "ALL") {
-  //     setMode("COUNTRY");
-  //     setCountryCode(e.target.value);
-  //     collectCountrywiseNewsItems(e.target.value);
-  //   } else {
-  //     collectNewsItems();
-  //   }
-  // }
  
-
   const collectCountrywiseNewsItems = (countryId,yearVal) => {
     getCountrywiseNews_fetch(countryId,yearVal)
       .then(newItems => {
         if (newItems['details'].length > 0) {
-          setUniqueNews(newItems['details'], countryId ? [] : news);
+          addMoreNews(setUniqueNews(newItems['details']), countryId ? [] : news);
         }
       })
       .catch(error =>
@@ -151,7 +156,7 @@ const NewsPortal = () => {
     getNewsItems_fetch()
       .then(newItems => {
         if (newItems['details'].length > 0) {
-          setUniqueNews(newItems['details'], mode != "DEFAULT" ? [] : news);
+          addMoreNews(setUniqueNews(newItems['details']), mode != "DEFAULT" ? [] : news);
           setMode("DEFAULT");
         }
       })
@@ -169,7 +174,7 @@ const NewsPortal = () => {
     getRandomNewsItems_fetch()
       .then(newItems => {
         if (newItems['details'].length > 0) {
-          setUniqueNews(newItems['details'], []);
+          addMoreNews(setUniqueNews(newItems['details']), []);
         }
       })
       .catch(error =>
@@ -248,7 +253,7 @@ const NewsPortal = () => {
           (news.map(item => (
 
             <GridItem
-              key={item}
+              key={item.id}
               item={item}
             />
           ))):

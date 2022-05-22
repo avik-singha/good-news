@@ -95,7 +95,7 @@ const Graph = () => {
     });
     setCountData(mData);
     console.log(mData)
-    setshouldLoadGraph(true);
+    // setshouldLoadGraph(true);
   }
 
 
@@ -114,7 +114,7 @@ const Graph = () => {
 
   React.useEffect(() => {
     getDayWiseCO2Emission_fetch("01", "31", "03", "2022");
-    getDayWiseCurrencyRate_fetch("01", "31", "03", "2022")
+    // getDayWiseCurrencyRate_fetch("01", "31", "03", "2022");
     // generateCO2EmissionData(data);
     getDayWisePNCount("01", "31", "03", "2022");
   }, [shouldLoadGraph]);
@@ -123,7 +123,14 @@ const Graph = () => {
 
   return (
     <main id="mainContent" className="container">
-      {countData.length > 0 ? (<StackedBarChart countData={countData} />) : (null)}
+      <h3 className="tc py-5">Daily Good News count vs Daily CO2 Emission</h3>
+      {
+      // shouldLoadGraph?(
+      countData.length > 0 ? (<StackedBarChart countData={countData} />) : (null)
+      // ):(
+        // <h2>Loading . . .</h2>
+      // )
+      }
     </main>
   );
 };
