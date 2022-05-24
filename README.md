@@ -2,13 +2,13 @@
 
 ## TABLE OF CONTENT
 
-- [Overview](OVERVIEW)
-- [Project Details](PROJECT-DETAILS)
-- [Technologies](TECHNOLOGIES)
-- [File Structure](FILE-STRUCTURE)
-- [Limitation](LIMITATION)
-- [Roadmap](ROADMAP)
-- [Team Members](TEAM-MEMBERS)
+- [Overview](#overview)
+- [Project Details](#project-details)
+- [Technologies](#technologies)
+- [File Structure](#file-structure)
+- [Limitation](#limitation)
+- [Roadmap](#roadmap)
+- [Team Members](#team-members)
 
 ## OVERVIEW
 
