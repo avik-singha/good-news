@@ -39,8 +39,8 @@ More information on the GDELT dataset [here](https://www.gdeltproject.org/)
   - Express
   - MongoDB 
     - Atlas
-    - Realm 
-    - Triggers
+    - Realm Functions
+    - Realm Triggers
     - Charts
   - Mongoose ODM
 For more information on what these technologies are used for in this project, check the [technologies details section](TECHNOLOGIES-DETAILS)
