@@ -14,7 +14,7 @@
 
 Good News is a web application that showcases positive news around the world.
 
-This project was birthed thanks to the amazing [idea](https://www.mongodb.com/community/forums/t/looking-for-hackers-good-news-for-a-change/157865) by [Angie Byron](https://github.com/webchick) for the [MongoDB World Hackathon]() and the motive was simple - modern news is chiefly depressing and vastly filled with negativity, so why don't we create an application that displays just the good things going on in the world?!
+This project was developed thanks to the amazing [idea](https://www.mongodb.com/community/forums/t/looking-for-hackers-good-news-for-a-change/157865) by [Angie Byron](https://github.com/webchick) for the [MongoDB World Hackathon]() and the motive was simple - modern news is chiefly depressing and vastly filled with negativity, so why don't we create an application that displays just the good things going on in the world?!
 
 The overall objective of this project is hence to change the user's focus to the ray of sunshine in a world that seems to be blinded by the dark clouds.
 
