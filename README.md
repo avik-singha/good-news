@@ -94,14 +94,15 @@ To start the backend application manually:
   3. Use `yarn start` or `npm start` to start backend app in development.
 
 ## LIMITATION
-This project makes use of the *Average Tone*( check the [event codebook](http://data.gdeltproject.org/documentation/GDELT-Event_Codebook-V2.0.pdf) for details) metric from the GDELT dataset to display positive news.
+This project makes use of the *Average Tone* metric from the GDELT dataset to display positive news.
+
 However, in GDELT 2.0's [Global Knowledge Graph](https://blog.gdeltproject.org/gdelt-2-0-our-global-world-in-realtime/) there are more specific tones which might yield better accuracy in identifying and displaying positive data, but the process of getting this GKG data from the GDELT dataset, writing a new field file, reshaping, and working with afore-mentioned data is beyond the scope of this hackathathon.
 
 ## ROADMAP
 Below are a few possible features that if added, would improve this project
 
 - A search bar (based on Atlas search) for searching for positive news about a particular subject (puppies?)
-- Based on the [original idea](https://www.mongodb.com/community/forums/t/looking-for-hackers-good-news-for-a-change/157865), a mobile app which notifies users of occassional good news updates would also be amazing.
+- Based on the [original idea](https://www.mongodb.com/community/forums/t/looking-for-hackers-good-news-for-a-change/157865), a mobile app which notifies users of occassional good news updates.
 
 Contributions are welcome and usage of the project is guided by the attached License .
 
