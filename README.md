@@ -119,6 +119,6 @@ Contributions are welcome and usage of the project is guided by the attached Lic
   - This project uses MongoDB Charts to visualise data in interesting formats such as goodnews per day, total goodnews per country, and two geo-spatial representations of goodnews data in countries.
 
 ## TEAM MEMBERS
-- [Sucheta Saha](https://github.com/sucheta21)
+- [Sucheta Singha](https://github.com/sucheta21)
 - [Avik Singha](https://github.com/avik-singha/)
 - [John Fiewor](https://github.com/Fiewor)
