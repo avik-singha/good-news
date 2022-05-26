@@ -1,7 +1,7 @@
 ﻿import React, { useState } from "react";
 import WarningMessage from "../WarningMessage/WarningMessage";
 import GridItem from "./GridItem";
-import { countryData } from "./countryList";
+import { countryData } from "../../data/countryList";
 
 const NewsPortal = () => {
   const [news, setNews] = useState([]);
@@ -15,9 +15,12 @@ const NewsPortal = () => {
   const [year, setYear] = useState("");
 
   let yearData = [];
-  for (var i = 2000; i < (new Date()).getFullYear() + 1; i++) {
+  let startingYear = 2018;
+  for (var i = startingYear; i < (new Date()).getFullYear() + 1; i++) {
     yearData.push(i);
   }
+
+  let monthData = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 
 
@@ -65,17 +68,7 @@ const NewsPortal = () => {
       return promiseItems;
   }
 
-  const getCountryWiseNewsCount_fetch = () => {
-    const promiseItems = fetch('api/getcountrywisenewscount')
-      .then(response => {
-        if (!response.ok) {
-          throw Error(response.statusText);
-        }
-        return response.json();
-      });
 
-    return promiseItems;
-  }
   
   const getProgressiveNewsItems_fetch = (avgTone, gsScale) => {
 
@@ -98,18 +91,33 @@ const NewsPortal = () => {
     return promiseItems;
   }
 
-  const setUniqueNews = (newItemsDetails, oldState) => {
-    const uniqueNews = [];
-    newItemsDetails.forEach((t) => !uniqueNews.includes(t.SourceURL) && uniqueNews.push(t.SourceURL));
-    let totalUniqueNews = [...oldState, ...uniqueNews]
-    setNews(totalUniqueNews)
+  const setUniqueNews = (newItemsDetails) => {
+    const newNews = [];   	
+
+    newItemsDetails.forEach((eachNews) => 
+    newNews.push({...eachNews.NewsDetails,...{id : eachNews._id}}
+    ))
+
+    // newItemsDetails.forEach((t) => !uniqueNews.includes(t.SourceURL) && uniqueNews.push(t.SourceURL));
+    // let totalUniqueNews = [...oldState, ...uniqueNews]
+    console.log(newNews)
+    let uniqueNewsArray = [...new Map(newNews.map((item) => [item["url"], item])).values()];
+
+    console.log(uniqueNewsArray)
+    return uniqueNewsArray;
   }
+
+  const addMoreNews = (newNews,oldNews) =>{
+    let totalNews = [...oldNews,...newNews]
+    setNews(totalNews);
+  }
+
 
   
   React.useEffect(() => {
     collectCountrywiseNewsItems(country, year);
     console.log(country, year);
-  }, [country, year]);
+  }, [country, year ]);
 
 
   const handleChange = (e) => {
@@ -127,22 +135,12 @@ const NewsPortal = () => {
     }
   }
 
-  // const handleChange = (e) => {
-  //   if (e.target.value != "ALL") {
-  //     setMode("COUNTRY");
-  //     setCountryCode(e.target.value);
-  //     collectCountrywiseNewsItems(e.target.value);
-  //   } else {
-  //     collectNewsItems();
-  //   }
-  // }
  
-
   const collectCountrywiseNewsItems = (countryId,yearVal) => {
     getCountrywiseNews_fetch(countryId,yearVal)
       .then(newItems => {
         if (newItems['details'].length > 0) {
-          setUniqueNews(newItems['details'], countryId ? [] : news);
+          addMoreNews(setUniqueNews(newItems['details']), countryId ? [] : news);
         }
       })
       .catch(error =>
@@ -158,7 +156,7 @@ const NewsPortal = () => {
     getNewsItems_fetch()
       .then(newItems => {
         if (newItems['details'].length > 0) {
-          setUniqueNews(newItems['details'], mode != "DEFAULT" ? [] : news);
+          addMoreNews(setUniqueNews(newItems['details']), mode != "DEFAULT" ? [] : news);
           setMode("DEFAULT");
         }
       })
@@ -176,7 +174,7 @@ const NewsPortal = () => {
     getRandomNewsItems_fetch()
       .then(newItems => {
         if (newItems['details'].length > 0) {
-          setUniqueNews(newItems['details'], []);
+          addMoreNews(setUniqueNews(newItems['details']), []);
         }
       })
       .catch(error =>
@@ -209,15 +207,16 @@ const NewsPortal = () => {
   return (
     <main id="mainContent">
       <div className="container">
-        <div className="row justify-content-center mt-5 p-0">
+        <div className="row justify-content-center mt-5 p-0 tc">
           <h3>Find out <span style={{ "color": "#116149", "fontSize": "42px" }}>positive</span> news from around the globe 🌎</h3>
         </div>
         <div className="row justify-content-center">
           <h6>Scroll to bottom &#11015; to find out more news</h6>
         </div>
         <br /><br />
-        <div className="row">
-          <div className="select">
+        
+        <div className="row justify-content-center">
+          <div className="select m-1">
             <select name="countryCode" id="countryCode" onChange={handleChange}>
               <option defaultValue value="ALL">Select Country</option>
               {countryData.map((eachcountryDetails, i) => (
@@ -226,7 +225,8 @@ const NewsPortal = () => {
             </select>
           </div>
           <div>&nbsp;&nbsp;</div>
-          <div className="select">
+
+          <div className="select m-1">
             <select name="year" id="year" onChange={handleChange}>
               <option defaultValue value="ALL">Select Year</option>
               {yearData.map((yearDetails, i) => (
@@ -235,19 +235,29 @@ const NewsPortal = () => {
             </select>
           </div>
           <div>&nbsp;&nbsp;</div>
+
+          {/* <div className="select m-1">
+            <select name="month" id="month" onChange={handleChange}>
+              <option defaultValue value="ALL">Select Month</option>
+              {monthData.map((monthDetails, i) => (
+                <option value={monthDetails} key={monthDetails}>{monthDetails}</option>
+              ))}
+            </select>
+          </div>
+          <div>&nbsp;&nbsp;</div> */}
           
-          <button type="button" className="btn btn-primary" onClick={()=>getRandomNews()}>Get some random good news</button>
+          {/* <button type="button" className="btn btn-primary" onClick={()=>getRandomNews()}>Get some random good news</button> */}
         </div>
         <div className="row justify-content-around text-center pb-5">
           {news.length>0?
           (news.map(item => (
 
             <GridItem
-              key={item}
+              key={item.id}
               item={item}
             />
           ))):
-          <h6>No positive news found</h6>
+          <h2 style={{"marginTop":"3rem"}}>No positive news found</h2>
           }
         </div>
       </div>
@@ -256,6 +266,7 @@ const NewsPortal = () => {
         text={warningMessage.warningMessageText}
       />
     </main>
+  
   );
 }
 

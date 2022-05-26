@@ -9,10 +9,10 @@ CONSTANTS.ENDPOINT.GETNEWSCOUNT = "/getnewscount";
 CONSTANTS.ENDPOINT.SEARCHNEWS = "/searchnews";
 CONSTANTS.ENDPOINT.COUNTRYWISEGETNEWS = "/getCountrywiseNews";
 
-CONSTANTS.ENDPOINT.MONGODB="mongodb+srv://readonly:readonly@gdelt2.rgl39.mongodb.net/GDELT?retryWrites=true&w=majority";
 CONSTANTS.ENDPOINT.GETRANDOMNEWS = "/getrandomnews";
 CONSTANTS.ENDPOINT.GETPROGRESSIVENEWS = "/getprogressivenews";
-CONSTANTS.ENDPOINT.GETCOUNTRYWISECOUNT = "/getcountrywisenewscount"
+CONSTANTS.ENDPOINT.GETDAYWISEGOODNEWSCOUNT = "/getdaywiseposnewscount";
+
 
 CONSTANTS.ENDPOINT.MONGODB_READONLY =
   "mongodb+srv://readonly:readonly@gdelt2.rgl39.mongodb.net/GDELT?retryWrites=true&w=majority";
