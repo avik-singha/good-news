@@ -26,7 +26,7 @@ const server = http.createServer(app);
  */
 
 mongoose
-  .connect(CONSTANTS.ENDPOINT.MONGODB_JOHN, {
+  .connect(CONSTANTS.ENDPOINT.MONGODB_READONLY, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })

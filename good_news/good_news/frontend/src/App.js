@@ -6,8 +6,10 @@ import Footer from "./components/Footer/Footer";
 
 import NewsPage from "./components/Main";
 
-import About from "./components/About/About";
-import Map from "./components/About/Map";
+import About from "./components/About/About.js";
+import Map from "./components/Viz/Map.js";
+import Graph from "./components/Viz/Graph";
+
 
 const App = () => {
   return (
@@ -17,6 +19,7 @@ const App = () => {
         <Route exact path="/" component={NewsPage} />
         <Route path="/About" component={About} />
         <Route path="/Map" component={Map} />
+        <Route path="/Graph" component={Graph} />
       </Switch>
       <Footer />
     </React.Fragment>
