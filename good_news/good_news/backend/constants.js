@@ -17,6 +17,6 @@ CONSTANTS.ENDPOINT.GETDAYWISEGOODNEWSCOUNT = "/getdaywiseposnewscount";
 CONSTANTS.ENDPOINT.MONGODB_READONLY =
   "mongodb+srv://readonly:readonly@gdelt2.rgl39.mongodb.net/GDELT?retryWrites=true&w=majority";
 CONSTANTS.ENDPOINT.MONGODB_JOHN =
-  "mongodb+srv://john:goodnews@gdelt.n1mbb.mongodb.net/?retryWrites=true&w=majority";
+  "mongodb+srv://john:goodnews@gdelt.n1mbb.mongodb.net/gdelt?retryWrites=true&w=majority";
 
 module.exports = CONSTANTS;

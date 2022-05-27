@@ -11,6 +11,7 @@
     border: 1px solid rgba(0,0,0,.125);
     border-radius: 0.25rem;
     text-decoration: none;
+    min-height: 22rem;
     /* box-shadow: 2px 2px 5px #9dbfbc; */
 }
 
@@ -27,6 +28,7 @@
     border: 1px solid rgba(0,0,0,.125);
     border-radius: 0.25rem;
     box-shadow: 2px 2px 5px #9dbfbc;
+    min-height: 22rem;
 }
 
 .card-body {

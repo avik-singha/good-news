@@ -18,14 +18,21 @@ let recentEvents = mongoose.Schema(
         NumSources: Number,
         NumArticles: Number,
         AvgTone: Number,
-        DATEADDED: Date,
-        SOURCEURL: String,
+        DateAdded: Date,
+        SourceURL: String,
         actorCodes: Array,
         points: Array,
         Actor1: {
             Name: String,
             Code: String,
             CountryCode: String,
+            KnownGroupCode: String,
+            EthnicCode: String,
+            Religion1Code: String,
+            Religion2Code: String,
+            Type1Code: String,
+            Type2Code: String,
+            Type3Code: String,
             Geo: {
                 type: String,
                 coordinates: Array
@@ -39,6 +46,13 @@ let recentEvents = mongoose.Schema(
         },
         Actor2: {
             Name: String,
+            Code: String,
+            CountryCode: String,
+            KnownGroupCode: String,
+            EthnicCode: String,
+            Religion1Code: String,
+            Religion2Code: String,
+            Type1Code: String,
             Type2Code: String,
             Type3Code: String,
             Geo: {
@@ -68,10 +82,9 @@ let recentEvents = mongoose.Schema(
             meta: {
                 title: String,
                 description: String,
-                url:String
             },
             og: {
-                url: String,
+                site_name : String,
                 title : String,
                 type : String,
                 description : String,
@@ -81,6 +94,6 @@ let recentEvents = mongoose.Schema(
     }
 )
 
-const news = mongoose.model("events",recentEvents,"events");
+const news = mongoose.model("recentEvents",recentEvents,"recentEvents");
 
 module.exports=news;

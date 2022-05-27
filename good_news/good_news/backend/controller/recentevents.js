@@ -30,7 +30,7 @@ module.exports={
             }},
             {
                 $sort : {
-                    DateAdded : 1
+                    DATEADDED : 1
                 }
             } 
         ]
@@ -86,7 +86,7 @@ module.exports={
             }},
             {
                 $sort : {
-                    DateAdded : 1
+                    DATEADDED : 1
                 }
             }
         ]

@@ -48,7 +48,7 @@ const NewsPortal = () => {
     return promiseItems;
   }
 
-  const getCountrywiseNews_fetch = (countryCode,yearVal) => {
+  const getCountryAndYearwiseNews_fetch = (countryCode,yearVal) => {
     console.log(countryCode,yearVal);
     const promiseItems = fetch("/api/getCountrywiseNews", {
       method: 'POST',
@@ -107,40 +107,56 @@ const NewsPortal = () => {
     return uniqueNewsArray;
   }
 
-  const addMoreNews = (newNews,oldNews) =>{
-    let totalNews = [...oldNews,...newNews]
-    setNews(totalNews);
+  const addMoreNews = (newNews,oldNews,shouldSetBlank=false) =>{
+    if(!shouldSetBlank){
+      let totalNews = [...oldNews,...newNews]
+      setNews(totalNews);
+    }
+    else{
+      setNews([]);
+    }
   }
 
 
-  
+
   React.useEffect(() => {
-    collectCountrywiseNewsItems(country, year);
-    console.log(country, year);
-  }, [country, year ]);
+    if (mode == "DEFAULT") {
+      collectNewsItems()
+    } else if (mode == "COUNTRY") {
+      collectCountrywiseNewsItems(country, year)
+    }
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [pageCount, country, year]);
 
 
   const handleChange = (e) => {
-
     const target = e.target;
     const value = target.value;
     const name = target.name;
 
     if (value != "ALL") {
       setMode("COUNTRY");
-      name === "countryCode" ? setCountryCode(value) : setYear(value);
-
+      name === "countrycode" ? setCountryCode(value) : setYear(value);
+      setPageCount(1);
     } else {
-      collectNewsItems();
+      name === "countrycode" ? setCountryCode("") : setYear("");
+      setPageCount(1);
+      if(name === "countrycode" && year=="" || name === "year" && country==""){
+        setMode("DEFAULT");
+      }  
     }
   }
 
  
   const collectCountrywiseNewsItems = (countryId,yearVal) => {
-    getCountrywiseNews_fetch(countryId,yearVal)
+    getCountryAndYearwiseNews_fetch(countryId,yearVal)
       .then(newItems => {
         if (newItems['details'].length > 0) {
           addMoreNews(setUniqueNews(newItems['details']), countryId ? [] : news);
+        }
+        else{
+          addMoreNews(null,null,true);
         }
       })
       .catch(error =>
@@ -158,6 +174,9 @@ const NewsPortal = () => {
         if (newItems['details'].length > 0) {
           addMoreNews(setUniqueNews(newItems['details']), mode != "DEFAULT" ? [] : news);
           setMode("DEFAULT");
+        }
+        else{
+          pageCount==1?addMoreNews(null,null,true):null;
         }
       })
       .catch(error =>
@@ -186,22 +205,12 @@ const NewsPortal = () => {
   }
 
   function onScroll() {
-    if (window.pageYOffset + window.innerHeight >= document.documentElement.scrollHeight - 50) {
-      console.log('Reached bottom')
-      setIsFetching(true);
-      setPageCount(pageCount + 1)
+    if (window.pageYOffset + window.innerHeight == document.documentElement.scrollHeight) {
+      setPageCount(pageCount + 1);
     }
   }
 
-  React.useEffect(() => {
-    if (mode == "DEFAULT") {
-      collectNewsItems()
-    } else if (mode == "COUNTRY") {
-      collectCountrywiseNewsItems(country, year)
-    }
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [isFetching, pageCount]);
+ 
 
 
   return (
@@ -217,7 +226,7 @@ const NewsPortal = () => {
         
         <div className="row justify-content-center">
           <div className="select m-1">
-            <select name="countryCode" id="countryCode" onChange={handleChange}>
+            <select name="countrycode" id="countryCode" onChange={handleChange}>
               <option defaultValue value="ALL">Select Country</option>
               {countryData.map((eachcountryDetails, i) => (
                 <option value={eachcountryDetails.value} key={eachcountryDetails.value}>{eachcountryDetails.label}</option>
@@ -257,7 +266,7 @@ const NewsPortal = () => {
               item={item}
             />
           ))):
-          <h2 style={{"marginTop":"3rem"}}>No positive news found</h2>
+          <h2 style={{"marginTop":"3rem"}}> &#9785; No positive news found</h2>
           }
         </div>
       </div>
