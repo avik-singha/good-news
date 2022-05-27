@@ -179,9 +179,9 @@ const NewsPortal = () => {
 
   const collectNewsItems = () => {
     getNewsItems_fetch()
-      .then(newItems => {
-        if (newItems['details'].length > 0) {
-          addMoreNews(setUniqueNews(newItems['details']), mode != "DEFAULT" ? [] : news);
+      .then(newsItems => {
+        if (newsItems['details'].length > 0) {
+          addMoreNews(setUniqueNews(newsItems['details']), mode != "DEFAULT" ? [] : news);
           setMode("DEFAULT");
         }
         else{
