@@ -6,8 +6,9 @@ import { countryData } from "../../data/countryList";
 const NewsPortal = () => {
   const [news, setNews] = useState([]);
   const [pageCount, setPageCount] = useState(1);
-  const [avgTone, setAvgTone] = useState(1);
-  const [gsScale, setGsScale] = useState(1);
+  // const [avgTone, setAvgTone] = useState(1);
+  // const [gsScale, setGsScale] = useState(1);
+  const [isOnlyNewsUrl, setisOnlyNewsUrl] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
   const [warningMessage, setWarningMessage] = useState({ warningMessageOpen: false, warningMessageText: "" });
   const [country, setCountryCode] = useState("");
@@ -25,8 +26,10 @@ const NewsPortal = () => {
 
 
   const getNewsItems_fetch = () => {
+    setIsFetching(true);
     const promiseItems = fetch('api/getnews/' + pageCount)
       .then(response => {
+        setIsFetching(false);
         if (!response.ok) {
           throw Error(response.statusText);
         }
@@ -37,8 +40,10 @@ const NewsPortal = () => {
   }
   
   const getRandomNewsItems_fetch = () => {
+    setIsFetching(true);
     const promiseItems = fetch('api/getrandomnews')
       .then(response => {
+        setIsFetching(false);
         if (!response.ok) {
           throw Error(response.statusText);
         }
@@ -49,7 +54,7 @@ const NewsPortal = () => {
   }
 
   const getCountryAndYearwiseNews_fetch = (countryCode,yearVal) => {
-    console.log(countryCode,yearVal);
+    setIsFetching(true);
     const promiseItems = fetch("/api/getCountrywiseNews", {
       method: 'POST',
       headers: {
@@ -59,7 +64,8 @@ const NewsPortal = () => {
       body: JSON.stringify({ countryCode: countryCode, pageno: pageCount, year: yearVal })
     })
       .then(response => {
-        console.log(response)
+        // console.log(response)
+        setIsFetching(false);
         if (!response.ok) {
           throw Error(response.statusText);
         }
@@ -92,19 +98,22 @@ const NewsPortal = () => {
   }
 
   const setUniqueNews = (newItemsDetails) => {
-    const newNews = [];   	
-
-    newItemsDetails.forEach((eachNews) => 
-    newNews.push({...eachNews.NewsDetails,...{id : eachNews._id}}
-    ))
-
-    // newItemsDetails.forEach((t) => !uniqueNews.includes(t.SourceURL) && uniqueNews.push(t.SourceURL));
-    // let totalUniqueNews = [...oldState, ...uniqueNews]
-    console.log(newNews)
-    let uniqueNewsArray = [...new Map(newNews.map((item) => [item["url"], item])).values()];
-
-    console.log(uniqueNewsArray)
-    return uniqueNewsArray;
+    if(!isOnlyNewsUrl)
+    {
+      const newNews = [];
+      newItemsDetails.forEach((eachNews) => 
+      newNews.push({...eachNews.NewsDetails,...{id : eachNews._id}}
+      ))
+      // console.log(newNews)
+      let uniqueNewsArray = [...new Map(newNews.map((item) => [item["url"], item])).values()];
+      // console.log(uniqueNewsArray)
+      return uniqueNewsArray;
+    }
+    else{
+      let uniqueNews = [];
+      newItemsDetails.forEach((t) => !uniqueNews.includes(t.SourceURL) && uniqueNews.push(t.SourceURL));
+      return uniqueNews;
+    }
   }
 
   const addMoreNews = (newNews,oldNews,shouldSetBlank=false) =>{
@@ -260,13 +269,23 @@ const NewsPortal = () => {
         <div className="row justify-content-around text-center pb-5">
           {news.length>0?
           (news.map(item => (
-
             <GridItem
               key={item.id}
               item={item}
+              isOnlyNewsUrl={isOnlyNewsUrl}
             />
-          ))):
-          <h2 style={{"marginTop":"3rem"}}> &#9785; No positive news found</h2>
+          ))
+          // (isFetching?(
+          //   <div style={{"marginTop":"5rem"}} className="spinner-border text-primary" role="status">
+          //             <span className="sr-only">Loading...</span>
+          //           </div>
+          // ):null)
+          ):(!isFetching?(
+          <h2 style={{"marginTop":"3rem"}}> &#9785; No positive news found</h2>):(
+            <div style={{"marginTop":"5rem"}} className="spinner-border text-primary" role="status">
+                      <span className="sr-only">Loading...</span>
+                    </div>
+          ))
           }
         </div>
       </div>

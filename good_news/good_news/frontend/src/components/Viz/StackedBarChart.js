@@ -47,6 +47,7 @@ const dummyDataFormat = [
 ];
 
 const StackedBarChart =({countData}) =>{
+    console.log("countData from BarChart")
     console.log(countData)
     return (
       <div style={{ width: '100%', height: 300 }}>

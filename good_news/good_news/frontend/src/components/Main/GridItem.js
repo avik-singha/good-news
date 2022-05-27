@@ -1,15 +1,18 @@
 ﻿import React from "react";
 import PropTypes from "prop-types";
-// import { LinkPreview } from '@dhaiwat10/react-link-preview';
+import { LinkPreview } from '@dhaiwat10/react-link-preview'; 
 import "./GridItem.css";
 
-const GridItem = ({ item }) => {
+const GridItem = (props) => {
+  let item = props.item;
+  let isOnlyNewsUrl = props.isOnlyNewsUrl;
   let {title, description, image, site_name, type,id} = item;
   let descCharLimit = 50;
   let titleCharLimit = 100;
   let placeHolderImageLink = "https://via.placeholder.com/150?text=Image+Not+Found";
   return (
     <div className="col-md-4 col-sm-12 p-5" id={id}>
+      {!isOnlyNewsUrl?(
       <a href={item} style={{"textDecoration":"none"}} target="_blank">
       <div className ="card">
         <img className ="card-img-top"
@@ -25,7 +28,17 @@ const GridItem = ({ item }) => {
         </p> */}
         </div>
       </div>
-      </a>
+      </a>):(
+         <LinkPreview 
+         url={item} 
+         width='300px' 
+         height='400px'
+         openInNewTab={true}
+         showPlaceholderIfNoImage={true}
+         descriptionLength={50}
+         showLoader={true}
+         />
+      )}
     </div>
   );
 }
@@ -37,12 +50,4 @@ GridItem.propTypes = {
 export default GridItem;
 
 
-{/* <LinkPreview 
-url={item} 
-width='300px' 
-height='400px'
-openInNewTab={true}
-showPlaceholderIfNoImage={true}
-descriptionLength={50}
-showLoader={true}
-/> */}
+ 

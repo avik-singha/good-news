@@ -7,7 +7,7 @@ const Map = () => {
   const firstBar = "6287950c-dbec-4730-837e-5fad19253eaa";
   const secondBar = "62878e9a-effe-4964-8f88-7d4ef261af9e";
   const firstPie = "6287a06e-f5f9-4bd0-8823-4c1ea748a2c4";
-
+  const firstGraph = "62879d34-1a3f-4a34-85a3-32a2bfbff78e"
   return (
     <main id="mainContent" className="container">
       <div className="row justify-content-center py-5">
@@ -16,6 +16,7 @@ const Map = () => {
         <Chart chartId={firstBar} />
         <Chart chartId={firstPie} />
         <Chart chartId={secondBar} />
+        <Chart chartId={firstGraph} />
       </div>
     </main>
   );

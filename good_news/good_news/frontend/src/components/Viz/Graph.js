@@ -1,3 +1,13 @@
+
+/**
+ * Experiment :
+ * This page is to check corelation between daily good news count and various other daily basis datapoint
+ * like CO2 emission, gold/silver price, etc.
+ * 
+ * WIP : Work In progress
+ * 
+ */
+
 import React, { useState } from "react";
 import StackedBarChart from "./StackedBarChart";
 import { co2EmissionData } from "../../data/co2emission";
